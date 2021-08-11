@@ -21,7 +21,7 @@ let max_picture_number=pictures_data.length;
 function main_picture_draw(picture_target) {
      $(".main_picture").attr('src',photo_directory+picture_target);
 };
-set_the_things;
+set_the_things();
 pictures_data.forEach((pict,index) => {
     image_text='<div class="thumb_nails"><img src="'+photo_directory+pict.photo+'" data-index="'+index+'" alt="'+pict.title+'" class="thumb_pictures"></img>';
     image_text=image_text+'<p class="title">'+pict.title+'</p><div>';
