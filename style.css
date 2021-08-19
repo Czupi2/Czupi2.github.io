@@ -1,6 +1,4 @@
-body {
-    display:flex;
-    flex-direction: column;
+html, body {
     margin: 0;
 }
 main {
@@ -53,8 +51,11 @@ main {
     left:25%;
 }
 .title_text {
-    display:block;
-    position: relative;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;   
+    position: absolute;
     font-family: 'Times New Roman', Times, serif;
     font-size: 40px;
     top: -150px;
@@ -71,16 +72,19 @@ main {
     background-color: grey;
 }
 .description_text {
-    display:block;
-    position: relative;
+/*    display:block; */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;   
+    position: absolute;
     font-family: 'Times New Roman', Times, serif;
     font-size: 24px;
     text-align: justify;
     top: -150px;
     left: 0px;
-    /* width: 980px; */
     width:96%;
-    height:100px;
+/*    height:100px;*/
     margin: 0;
     opacity: 0.6; 
     background-color: grey;
@@ -107,7 +111,7 @@ container {
 /*    height: 110px;*/
     padding: 0;
     margin: 0;
-/*    position: relative;*/
+    position: relative;
 }
 .thumb_pictures {
 /*    height: 100px; */
@@ -119,19 +123,21 @@ container {
 }
 
 .title {
-    display: block;
-    visibility: hidden;
-/*    position: absolute;*/
+    display: none;
+    position: absolute;
     background: rgb(39, 39, 39);
     opacity: 0.6;
     color: white;
-    font-size: 12px;
+/*    font-size: 12px;*/
     border-radius: 5px;
     margin: 2px;
     padding: 3px 3px;
-/*    top: -140px;*/
-  }
+    top: 0px;
+   }
   .thumbNails:hover .title {
-    display: block;
-    visibility: visible;
+ /*   display: block; */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;   
   }
