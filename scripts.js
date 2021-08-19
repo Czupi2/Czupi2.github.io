@@ -1,5 +1,5 @@
 let currentPhoto=0;
-let current_thumb_color='grey';
+let current_thumb_color='black';
 let background_color='beige';
 let image_text="";
 let photo_directory="./elemek/";
@@ -16,15 +16,39 @@ let pictures_data=[
     {photo:"20090601_130930RomaAngyalvar.jpg",title:"Róma: Angyalvár",description:"A valamikori pápai fellegvár, ma már múzeumként szolgál Rómában."},
     {photo:"20090601_131948VatikanSzentPeterBazilika.jpg",title:"Vatikán: Szent Péter Bazilika",description:"A katolikus egyház központja, a Pápa székhelye egyben a legmagasabb egyházi épület a világon."},
 ];
-let max_picture_number=pictures_data.length;
+let max_picture_number=1;
+let max_window_width=1;
+let max_window_height=1;
+let main_height=1;
+let main_reference_height=1;
+let main_picture_height=1;
+let max_main_picture_width=1;
+let arrows_height=1;
+let right_arrow_height=1;
+let left_arrow_height=1;
+let title_text_height=1;
+let max_title_height=1;
+let description_text_height=1;
+
+let container_height=1;
+let thumb_nails_height=1;
+let thumb_pictures_height=1;
+let title_height=1;
 
 function main_picture_draw(picture_target) {
+     $(".main_picture").css('max-width',max_main_picture_width);
      $(".main_picture").attr('src',photo_directory+picture_target);
 };
+
+screen_adjusting();
 set_the_things();
+load_and_create_thumb_nails();
+
+function load_and_create_thumb_nails() {
 pictures_data.forEach((pict,index) => {
-    image_text='<div class="thumb_nails"><img src="'+photo_directory+pict.photo+'" data-index="'+index+'" alt="'+pict.title+'" class="thumb_pictures"></img>';
-    image_text=image_text+'<p class="title">'+pict.title+'</p><div>';
+    image_text='<div class="thumbNails"><p class="title" height="'+title_height+'">'+pict.title+'</p>';
+    image_text=image_text+'<img src="'+photo_directory+pict.photo+'" data-index="'+index+'" alt="'+pict.title+'" class="thumb_pictures" height="'+thumb_pictures_height+'"></div>';
+    console.log(image_text);
     $("container").append(image_text);
     if (index===currentPhoto) {
         $('.thumb_pictures[data-index="'+index+'"]').css('background-color',current_thumb_color);
@@ -32,8 +56,7 @@ pictures_data.forEach((pict,index) => {
         $('.thumb_pictures[data-index="'+index+'"]').css('background-color',background_color);
     };
 });
-
-
+}
 
 $("container").on('click','.thumb_pictures', function(event) {
     $('.thumb_pictures[data-index="'+currentPhoto+'"]').css('background-color',background_color);
@@ -49,6 +72,48 @@ function set_the_things() {
     $(".description_text").text(pictures_data[currentPhoto].description);
     $('.thumb_pictures[data-index="'+currentPhoto+'"]').css('background-color',current_thumb_color);
 };
+function screen_adjusting() {
+    max_picture_number=pictures_data.length;
+    max_window_width=window.innerWidth;
+    max_window_height=window.innerHeight;
+    main_height=max_window_height*0.75;
+    main_reference_height=main_height;
+    main_picture_height=main_height;
+    max_main_picture_width=Math.round(max_window_width*0.8);
+    arrows_height=main_height;
+    right_arrow_height=arrows_height*0.5;
+    left_arrow_height=arrows_height*0.5;
+    title_text_height=main_height*0.1;
+    description_text_height=main_height*0.2;
+    
+    container_height=max_window_height-main_height;
+    thumb_nails_height=container_height-50; //-50px because of the horizontal scrollbar
+    thumb_pictures_height=Math.round(thumb_nails_height*0.65);
+    title_height=Math.round(thumb_nails_height-thumb_pictures_height);
+    $("main").css('height',main_height);
+    $(".main_references").css('height',main_reference_height);
+    $(".main_picture").css('height',main_picture_height);
+    $(".arrows").css('height',arrows_height);
+    $("#right_arrow").css('height',right_arrow_height/4);
+    $("#left_arrow").css('height',left_arrow_height/4);
+    $("#right_arrow").css('top',right_arrow_height*0.75);
+    $("#left_arrow").css('top',left_arrow_height*0.75);
+    $(".title_text").css('height',title_text_height);
+    $(".description_text").css('height',description_text_height);
+    $(".title_text").css('top',-title_text_height-description_text_height);
+    $(".description_text").css('top',-title_text_height-description_text_height);
+    $(".title_text").css('font-size',(title_text_height/1.5));
+    $(".description_text").css('font-size',(description_text_height/4.5));
+
+    $("container").css('height',container_height);
+/*    $(".thumbNails").css('height',thumb_nails_height); */
+/*    $(".thumbNails").css('top',title_height); */
+    $('.thumb_pictures').css('height',thumb_pictures_height);
+    $('.title').css('height',title_height);
+    $(".title").css('overflow',"hidden");
+    $(".title").css('font-size',(title_height/3));
+/*    $(".title").css('top',(-container_height));*/
+};
 $("#left_arrow").click(() => {
     $('.thumb_pictures[data-index="'+currentPhoto+'"]').css('background-color',background_color);
     currentPhoto--;
@@ -59,3 +124,13 @@ $("#right_arrow").click(() => {
     currentPhoto++;
     set_the_things();
 });
+window.addEventListener('resize', resizeThingsOnChangeOfWindowSize);
+
+function resizeThingsOnChangeOfWindowSize() {
+    pictures_data.forEach((pict,index) => {
+        $('.thumbNails').remove();
+    });
+    screen_adjusting();
+    set_the_things();
+    load_and_create_thumb_nails();
+}
