@@ -138,6 +138,7 @@ $("#right_arrow").click(() => {
     set_the_things();
 });
 window.addEventListener('resize', resizeThingsOnChangeOfWindowSize);
+screen.addEventListener('orientationchange',resizeThingsOnChangeOfWindowSize);
 
 function resizeThingsOnChangeOfWindowSize() {
     pictures_data.forEach((pict,index) => {
